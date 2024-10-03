@@ -30,13 +30,15 @@ dest = []
 for elem in files:
     abs_file_path = os.path.join(directory, elem)
     df = pd.read_csv(abs_file_path, sep=';', header=None)
-    df = np.asarray(df)
+    nf = np.asarray(df)
     now=100000
     numBuy=0
     numSell=0
     volBuy=0
     volSell=0
-    for row in df:
+    cnt=0
+    for row in nf:
+
         if row[1] >= 100000:
             if row[1] > now+59:
                 ln=[0]*8
@@ -52,7 +54,7 @@ for elem in files:
                 numSell = 0
                 volBuy = 0
                 volSell = 0
-                now=row[1]
+                now=row[1]//100*100
             close=row[2]
             if row[5] == 'B' :
                 numBuy+=1
@@ -70,7 +72,7 @@ for elem in files:
     ln[6] = volSell
     dest.append(ln)
 df=pd.DataFrame(dest)
-abs_file_path = os.path.join(directory, "mxi924min.csv")
+abs_file_path = os.path.join(directory, "mxi924min2.csv")
 df.to_csv(abs_file_path, sep=';', index=False,header=False)
 #    script_dir = os.path.dirname(__file__) #<-- absolute dir the script is in
 
